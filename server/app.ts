@@ -1,6 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 require('dotenv').config();
-
+import { ErrorMiddleWare } from './middleware/Error';
 export const app = express();
 
 import cors from 'cors';
@@ -30,3 +30,5 @@ app.all('*', (req:Request, res:Response, next:NextFunction) => {
     err.statusCode = 400;
     next(err);
 })
+
+app.use(ErrorMiddleWare);
