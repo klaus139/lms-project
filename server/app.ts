@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 require('dotenv').config();
 import { ErrorMiddleWare } from './middleware/Error';
 import userRouter from './routes/user.route';
+import courseRouter from './routes/course.route';
 export const app = express();
 
 import cors from 'cors';
@@ -21,7 +22,8 @@ app.use(cors({
 
 
 //routes
-app.use('/api/v1', userRouter)
+app.use('/api/v1', userRouter);
+app.use('/api/v1', courseRouter);
 
 
 
