@@ -29,8 +29,8 @@ export const ErrorMiddleWare= (
   }
 
   //jwt expire error
-  if ((err.name = "TokenExpiredError")) {
-    const message = `Your Token has Expired, Please login to get a fresh one.`;
+  if (err.name === "TokenExpiredError") {
+    const message = `Your Token has Expired, Please login.`;
     err = new ErrorHandler(message, 400);
   }
 

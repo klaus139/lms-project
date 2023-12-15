@@ -18,8 +18,12 @@ app.use(cors({
     origin: process.env.ORIGIN
 }));
 
+
+
 //routes
 app.use('/api/v1', userRouter)
+
+
 
 //testing api
 app.get('/test', (req:Request, res:Response, next:NextFunction)=> {
@@ -34,5 +38,5 @@ app.all('*', (req:Request, res:Response, next:NextFunction) => {
     err.statusCode = 400;
     next(err);
 })
-
 app.use(ErrorMiddleWare);
+
