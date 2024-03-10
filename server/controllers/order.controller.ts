@@ -7,7 +7,7 @@ import courseModel from "../models/course.model";
 import path from "path"
 import ejs from "ejs";
 import sendMail from "../utils/sendMail";
-import NotoficationModel from "../models/notificationModel";
+import NotificationModel from "../models/notificationModel";
 import { newOrder } from "../services/order.service";
 
 export const createOrder = CatchAsyncError(async(req:Request, res:Response, next:NextFunction) => {
@@ -30,20 +30,53 @@ export const createOrder = CatchAsyncError(async(req:Request, res:Response, next
         const data:any = {
             courseId:course._id,
             userId: user?._id,
+            payment_info,
         }
 
-        newOrder(data, res, next);
+        
 
         const mailData = {
             order:{
-                _id:course._id.slice(0,6),
+                _id:course._id.toString().slice(0,6),
                 name:course.name,
                 price:course.price,
                 date:new Date().toLocaleDateString('en-US',{year:'numeric', month:'long', day:'numeric'}),
             }
         }
 
-        const html = await ejs.renderFile(path.join(__dirname, '../mails/order-confirmation.ejs'), mailData);
+        const html = await ejs.renderFile(path.join(__dirname, '../mails/order-confirmation.ejs'), {order:mailData});
+
+        try{
+            if(user){
+                await sendMail({
+                    email: user.email,
+                    subject:"Order Confirmation",
+                    template:"order-confirmation.ejs",
+                    data:mailData,
+                });
+            }
+        }catch(error:any){
+            return next(new ErrorHandler(error.message, 500));
+
+        }
+
+        user?.courses.push(course?._id);
+        await user?.save();
+
+        await NotificationModel.create({
+            user:user?._id,
+            title:"New Order",
+            message:`you have a new order from ${course?.name}`,
+        });
+
+        if(course.purchased){
+            course.purchased +=1;
+        }
+        await course.save();
+
+        newOrder(data, res, next);
+
+       
 
 
 
