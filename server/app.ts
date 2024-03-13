@@ -6,6 +6,7 @@ import courseRouter from './routes/course.route';
 import orderRouter from "./routes/order.route";
 import notificationRoute from './routes/notification.route';
 import analyticsRouter from './routes/analytics.route';
+import layoutRouter from './routes/layout.route';
 export const app = express();
 
 import cors from 'cors';
@@ -30,6 +31,7 @@ app.use('/api/v1', courseRouter);
 app.use('/api/v1', orderRouter);
 app.use('/api/v1', notificationRoute);
 app.use('/api/v1', analyticsRouter)
+app.use('/api/v1', layoutRouter);
 
 
 
