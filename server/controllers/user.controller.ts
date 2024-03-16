@@ -113,6 +113,7 @@ export const activateUser = CatchAsyncError(
         name,
         email,
         password,
+        isVerified:true,
       });
       res.status(201).json({
         success: true,
