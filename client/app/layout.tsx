@@ -9,6 +9,7 @@ import { Providers } from "./Provider";
 import { SessionProvider } from "next-auth/react";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 import Loader from "./components/Loader/Loader";
+import Custom from "./Custom";
 
 const poppins = Poppins({
   subsets:["latin"],
@@ -44,13 +45,4 @@ export default function RootLayout({
   );
 }
 
-const Custom:React.FC<{children: React.ReactNode}> = ({children})=>{
-  const {isLoading} = useLoadUserQuery({})
-  return (
-    <>
-    {
-      isLoading ? <Loader /> : <>{children} </>
-    }
-    </>
-  )
-}
+

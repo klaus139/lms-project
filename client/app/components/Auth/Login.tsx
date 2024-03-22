@@ -28,7 +28,7 @@ const schema = Yup.object().shape({
 
 const Login: FC<Props> = ({setRoute, setOpen}) => {
   const [show, setShow] = useState(false);
-  const [login, {isSuccess, isError, error}] = useLoginMutation();
+  const [login, {isSuccess, isError, error, isLoading}] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
@@ -111,6 +111,11 @@ const Login: FC<Props> = ({setRoute, setOpen}) => {
             value="Login"
             className={`${styles.button}`}
             />
+            {isLoading
+            && (
+              <h1>Loading...</h1>
+            )
+            }
         </div>
         <br/>
         <h5 className="text-center pt-4 font-Poppins text-[14px] text-black dark:text-white">Or join with</h5>

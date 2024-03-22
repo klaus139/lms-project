@@ -193,6 +193,7 @@ export const updateAccessToken = CatchAsyncError(
         return next(new ErrorHandler(message, 400));
       }
       const session = await redis.get(decoded.id as string);
+      //console.log(session);
       if (!session) {
         return next(new ErrorHandler('please login to access this resource!', 400));
       }
@@ -277,18 +278,18 @@ interface IUpdateUserInfo {
 export const updateUserInfo = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { email, name } = req.body as IUpdateUserInfo;
+      const { name } = req.body as IUpdateUserInfo;
       const userId = req.user?._id;
       //console.log(req.user)
       const user = await userModel.findById(userId);
 
-      if (email && user) {
-        const isEmailExist = await userModel.findOne({ email });
-        if (isEmailExist) {
-          return next(new ErrorHandler("Email already exists", 400));
-        }
-        user.email = email;
-      }
+      // if (email && user) {
+      //   const isEmailExist = await userModel.findOne({ email });
+      //   if (isEmailExist) {
+      //     return next(new ErrorHandler("Email already exists", 400));
+      //   }
+      //   user.email = email;
+      // }
 
       if (name && user) {
         user.name = name;
@@ -354,49 +355,102 @@ export const updatePassword = CatchAsyncError(
 interface IUpdateProfilePicture {
   avatar: string;
 }
-export const updateProfilePicture = CatchAsyncError(
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const { avatar } = req.body as IUpdateProfilePicture;
+// export const updateProfilePicture = CatchAsyncError(
+//   async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       const { avatar } = req.body as IUpdateProfilePicture;
 
-      const userId = req.user?._id;
+//       const userId = req.user?._id;
 
-      const user = await userModel.findById(userId);
+//       const user = await userModel.findById(userId);
 
-      if (avatar && user) {
-        //if user has an avatar
-        if (user?.avatar?.public_id) {
-          //first delete the old image
-          await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-        } else {
-          const myCloud = await cloudinary.v2.uploader.upload(avatar, {
-            folder: "avatars",
-            width: 150,
-          });
-          user.avatar = {
-            public_id: myCloud.public_id,
-            url: myCloud.url,
-          };
-        }
+//       if (avatar && user) {
+//         //if user has an avatar
+//         if (user?.avatar?.public_id) {
+//           //first delete the old image
+//           await cloudinary.v2.uploader.destroy(user?.avatar?.public_id);
+//           const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+//             folder: "avatars",
+//             width: 150,
+//           });
+//         } else {
+//           const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+//             folder: "avatars",
+//             width: 150,
+//           });
+//           user.avatar = {
+//             public_id: myCloud.public_id,
+//             url: myCloud.url,
+//           };
+//         }
+//       }
+
+//       await user?.save();
+
+//       await redis.set(userId, JSON.stringify(user));
+
+//       res.status(200).json({
+//         success: true,
+//         user,
+//       });
+//     } catch (error: any) {
+//       return next(new ErrorHandler(error.message, 500));
+//     }
+//   }
+// );
+
+export const updateProfilePicture = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { avatar } = req.body as IUpdateProfilePicture;
+    const userId = req.user?._id;
+
+    if (!userId) {
+      throw new ErrorHandler('User ID not found', 400);
+    }
+
+    let user: IUser | null = await userModel.findById(userId);
+
+    if (!user) {
+      throw new ErrorHandler('User not found', 404);
+    }
+
+    // If avatar is provided and user exists
+    if (avatar) {
+      // If user already has an avatar, delete the old image
+      if (user.avatar?.public_id) {
+        await cloudinary.v2.uploader.destroy(user.avatar.public_id);
       }
 
-      await user?.save();
-
-      await redis.set(userId, JSON.stringify(user));
-
-      res.status(200).json({
-        success: true,
-        user,
+      // Upload new avatar to Cloudinary
+      const myCloud = await cloudinary.v2.uploader.upload(avatar, {
+        folder: 'avatars',
+        width: 150,
       });
-    } catch (error: any) {
-      return next(new ErrorHandler(error.message, 500));
+
+      // Update user's avatar information
+      user.avatar = {
+        public_id: myCloud.public_id,
+        url: myCloud.url,
+      };
     }
+
+    // Save the updated user
+    await user.save();
+
+    // Update user data in Redis cache
+    // Assuming `redis` is initialized elsewhere
+    await redis.set(userId, JSON.stringify(user));
+
+    // Send success response
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error: any) {
+    // Pass error to Express error handler middleware
+    return next(new ErrorHandler(error.message, error.statusCode || 500));
   }
-);
+});
 
 export const getAllUsers = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {

@@ -36,6 +36,12 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   const {} = useLogoutQuery(undefined,{
     skip: !logout ? true : false,
   })
+
+  //const [logUserOut] = useLogoutQuery(undefined,{});
+ 
+  
+
+ 
  
 
   useEffect(() => {
@@ -53,10 +59,14 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
         toast.success("Login successful");
       }
     }
-    if(data === null){
-      setLogout(true);
-    }
+    // if(data === null && user === null){
+    //   setLogout(true);
+    // }
   }, [data, user]);
+
+ 
+
+ 
 
   //console.log(data?.user.image);
 
@@ -117,6 +127,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
                       className="w-[30px] h-[30px] rounded-full"
                       width={30}
                       height={30}
+                      style={{border:activeItem === 5 ? "2px solid #ffc107" : "none"}}
                     />
                   </Link>
                 </>

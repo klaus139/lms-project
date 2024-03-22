@@ -10,7 +10,7 @@ type Props = {};
 
 const page: FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
-  const [activeItem, setActiveItem] = useState(0);
+  const [activeItem, setActiveItem] = useState(5);
   const {user} = useSelector((state:any) => state.auth)
 
   const [route, setRoute] = useState("Login");
@@ -18,7 +18,7 @@ const page: FC<Props> = (props) => {
     <div>
       <Protected>
         <Heading
-          title={`${user?.name} profile`}
+          title={`${user?.name} profile - ELearn`}
           description="E-Learning is a platform for students to learn and get help from tutors"
           keywords="Programming, Data Analysis, Cyber Security, Full-stack, Backend, Frontend, Machine Learning"
         />
