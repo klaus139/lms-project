@@ -1,6 +1,8 @@
 import React, { FC } from "react";
 import { styles } from "../../../../app/styles/style";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
+import {toast} from "react-hot-toast";
+
 
 interface Props {
   benefits: { title: string }[];
@@ -28,6 +30,28 @@ const CourseData: FC<Props> = ({
   const handleAddBenefits = () => {
     setBenefits([...benefits, {title: ""}]);
   };
+
+  const prevButton = () => {
+    setActive(active -1)
+  }
+
+  const handleOptions = () => {
+    if(benefits[benefits.length -1]?.title !== "" && prerequisites[prerequisites.length - 1]?.title !== ""){
+      setActive(active + 1);
+    }else {
+      toast.error("Please fill all the required fields")
+    }
+  }
+
+  const handlePrerequisiteChange = (index: number, value: any) => {
+    const updatedPrerequisite = [...prerequisites];
+    updatedPrerequisite[index].title = value;
+    setPrerequisites(updatedPrerequisite);
+  };
+
+  const handleAddPrerequisite = () => {
+    setPrerequisites([...prerequisites, {title: ""}]);
+  };
   return (
     <div className="w-[80%] m-auto mt-24 block">
       <div>
@@ -51,6 +75,36 @@ const CourseData: FC<Props> = ({
         style={{margin: "10px 0px", cursor: "pointer", width: "30px"}}
         onClick={handleAddBenefits}
         />
+      </div>
+      <div>
+        <label className={`${styles.label} text-[20px] dark:text-white text-black`} htmlFor="email">
+          What are the prerequisites for students who register for this course
+        </label>
+        <br />
+        {prerequisites.map((prerequisites: any, index: number) => (
+          <input
+            type="text"
+            key={index}
+            name="prerequisites"
+            placeholder="You will need to have basic javascript knowledge"
+            required
+            className={`${styles.input} my-2`}
+            value={prerequisites.title}
+            onChange={(e) => handlePrerequisiteChange(index, e.target.value)}
+          />
+        ))}
+        <AddCircleIcon 
+        style={{margin: "10px 0px", cursor: "pointer", width: "30px"}}
+        onClick={handleAddPrerequisite}
+        />
+      </div>
+      <div className="w-full flex items-center justify-between">
+        <div className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer"
+        onClick={() => prevButton()}>
+            Prev
+        </div>
+        <div className="w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff rounded mt-8 cursor-pointer" 
+        onClick={() => handleOptions()}>Next</div> 
       </div>
     </div>
   );
