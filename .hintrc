@@ -18,6 +18,15 @@
         ]
       }
     ],
-    "detect-css-reflows/paint": "off"
+    "detect-css-reflows/paint": "off",
+    "compat-api/html": [
+      "default",
+      {
+        "ignore": [
+          "iframe[allow]"
+        ]
+      }
+    ],
+    "no-inline-styles": "off"
   }
 }

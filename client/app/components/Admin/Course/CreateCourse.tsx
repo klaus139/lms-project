@@ -62,6 +62,7 @@ const CreateCourse = (props: Props) => {
       tags:courseInfo.tags,
       thumbnail:courseInfo.thumbnail,
       level:courseInfo.level,
+      demoUrl:courseInfo.demoUrl,
       totalVideos:courseContentData.length,
       benefits:formattedBenefits,
       prerequisites:formattedPrerequisites,
@@ -75,7 +76,7 @@ const CreateCourse = (props: Props) => {
     const data = courseData
   }
 
-  console.log(courseData);
+  //console.log(courseData);
   return (
     <div className="w-full flex min-h-screen">
       <div className="w-[80%]">

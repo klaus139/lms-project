@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CatchAsyncError } from "../middleware/catchAsyncErrors";
 import ErrorHandler from "../utils/Errorhandler";
 import cloudinary from "cloudinary";
+import axios from 'axios';
 import { createCourse, getAllCourseService } from "../services/course.service";
 import courseModel from "../models/course.model";
 import { redis } from "../utils/redis";
@@ -440,3 +441,25 @@ export const deleteCourse = CatchAsyncError(
     }
   }
 );
+
+//generate video videoUrl
+export const generateVideoUrl = CatchAsyncError(async(req:Request, res:Response, next:NextFunction)=> {
+  try{
+    const {videoId} = req.body;
+    const response = await axios.post(
+      `https://dev.vdocipher.com/api/videos/${videoId}/otp`,
+      {ttl:300},
+      {
+        headers:{
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization:`Apisecret ${process.env.VDOCYPHER_API_SECRET2}`,
+        }
+      }
+    );
+    res.json(response.data)
+
+  }catch(error:any){
+    return next(new ErrorHandler(error.messages, 400))
+  }
+})
