@@ -14,10 +14,12 @@ import {
   uploadCourse,
 } from "../controllers/course.controller";
 import { authorizeRoles, isAuthenticated } from "../middleware/auth";
+import { updateAccessToken } from "../controllers/user.controller";
 const courseRouter = express.Router();
 
 courseRouter.post(
   "/create-course",
+  updateAccessToken,
   isAuthenticated,
   authorizeRoles("admin"),
   uploadCourse

@@ -27,8 +27,10 @@ const CoursePreview: FC<Props> = ({
     setActive(active -1);
   }
 
+
+
   const createCourse = () => {
-    handleCreateCourse();
+    handleCourseCreate();
   }
 
   return (
