@@ -9,6 +9,7 @@ type Props = {
   setActive: (active: number) => void;
   courseData: any;
   handleCourseCreate: any;
+  isEdit:boolean;
 };
 
 const CoursePreview: FC<Props> = ({
@@ -16,12 +17,14 @@ const CoursePreview: FC<Props> = ({
   handleCourseCreate,
   setActive,
   active,
+  isEdit
 }) => {
   const discountPercentage =
     ((courseData?.estimatedPrice - courseData?.price) /
       courseData?.estimatedPrice) *
     100;
   const discountPercentagePrice = discountPercentage.toFixed(0);
+  console.log(courseData)
 
   const prevButton = () => {
     setActive(active -1);
@@ -123,7 +126,11 @@ const CoursePreview: FC<Props> = ({
                 Course Details
             </h1>
             <p className="text-gray-700 dark:text-[#fffffff5] text-[18px] mt-[20px] whitespace-pre-line w-full overflow-hidden ">
-            {courseData?.description}
+            {courseData?.courseData?.map((item:any, index:number) => (
+              <>
+              {item.description}
+              </>
+            ))}
             </p>
            
         </div>
@@ -132,7 +139,9 @@ const CoursePreview: FC<Props> = ({
       </div>
       <div className='w-full flex items-center justify-between'>
         <div className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer' onClick={() => prevButton()}>Prev</div>
-        <div className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer' onClick={() => createCourse()}>Create</div>
+        <div className='w-full 800px:w-[180px] flex items-center justify-center h-[40px] bg-[#37a39a] text-center text-[#fff] rounded mt-8 cursor-pointer' onClick={() => createCourse()}>{
+          isEdit ? 'Update' : "Create"
+        }</div>
       </div>
     </div>
   );

@@ -468,8 +468,8 @@ export const getAllUsers = CatchAsyncError(
 export const updateUserRole = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { id, role } = req.body;
-      updateUserRoleService(res, id, role);
+      const { email, role } = req.body;
+      updateUserRoleService(res, email, role);
     } catch (error: any) {
       console.log(error.message);
       return next(new ErrorHandler("Failed to Update User Role", 400));
