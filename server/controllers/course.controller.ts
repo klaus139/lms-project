@@ -471,6 +471,7 @@ export const generateVideoUrl = CatchAsyncError(async(req:Request, res:Response,
     res.json(response.data)
 
   }catch(error:any){
+    console.log(error)
     return next(new ErrorHandler(error.messages, 400))
   }
 })
