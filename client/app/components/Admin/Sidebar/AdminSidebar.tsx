@@ -106,9 +106,39 @@ const Sidebar = () => {
       >
         <Menu iconShape="square">
           {/* logo and memu icon here */}
-          <MenuItem
+           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <ArrowForwardIosIcon /> : undefined}
+            style={{
+              margin: "10px 0 20px 0",
+            }}
+          >
+            {isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
+                {/* <Link href="/">
+                  <h3 className="text-[25px] font-Poppins uppercase dark:text-[#ffffffc1] text-black">
+                    E-Learn
+                  </h3>
+                </Link> */}
+                <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="inline-block"
+                >
+                  <ArrowBackIosIcon className="text-black ddark:text-[#ffffffc1]" />
+                </IconButton>
+              </Box>
+            )} 
+          </MenuItem> 
+          {/* <Menu iconShape="square">
+          {/* logo and memu icon here */}
+          {/* <MenuItem
+            onClick={() => setIsCollapsed(!isCollapsed)} // Toggle collapse state
+            icon={isCollapsed ? <ArrowForwardIosIcon className="text-red-500" /> : undefined}
             style={{
               margin: "10px 0 20px 0",
             }}
@@ -127,16 +157,34 @@ const Sidebar = () => {
                 </Link>
                 <IconButton
                   onClick={() => setIsCollapsed(!isCollapsed)}
-                  className="inline-block"
+                  className="inline-block text-red-500 text-[30px] z-[10]"
                 >
-                  <ArrowBackIosIcon className="text-black ddark:text-[#ffffffc1]" />
+                  <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1]" />
                 </IconButton>
               </Box>
             )}
-          </MenuItem>
+          </MenuItem> */}
+          {/* Rest of the menu items */}
+        {/* </Menu>  */}
           {!isCollapsed && (
-            <Box mb="25px">
+            
+            <Box mb="25px" justifyContent='center'>
+                   <Link href="/">
+                  <h3 className="text-[20px] ml-[0px] items-center justify-center flex  font-Poppins uppercase dark:text-[#ffffffc1] text-black">
+                    E-Learn
+                  </h3>
+                </Link>
+              <IconButton
+                  onClick={() => setIsCollapsed(!isCollapsed)}
+                  className="flex text-black dark:text-white text-[20px] items-center justify-center mx-auto flex-row gap-2"
+                >
+             
+                  <ArrowBackIosIcon className="text-black dark:text-[#ffffffc1] text-[20px]" />
+                </IconButton>
+              
               <Box display="flex" justifyContent="center" alignItems="center">
+                
+              
                 <Image
                   alt="profile-user"
                   width={100}
@@ -235,6 +283,13 @@ const Sidebar = () => {
               title="FAQ"
               to="/admin/faq"
               icon={<QuizIcon />}
+              setSelected={setSelected}
+              selected={selected}
+            />
+             <Item
+              title="Categories"
+              to="/admin/categories"
+              icon={<Wysiwyg />}
               setSelected={setSelected}
               selected={selected}
             />

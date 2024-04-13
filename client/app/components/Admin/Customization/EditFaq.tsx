@@ -1,8 +1,11 @@
 import { styles } from '@/app/styles/style'
-import { useGetHeroDataQuery } from '../../../../redux/features/layout/layoutApi'
+import { useEditLayoutMutation, useGetHeroDataQuery } from '../../../../redux/features/layout/layoutApi'
 import React, {useState, useEffect} from 'react'
 import {HiMinus, HiPlus} from 'react-icons/hi'
 import { AiOutlineDelete } from 'react-icons/ai'
+import {toast} from 'react-hot-toast'
+import { IoMdAddCircleOutline } from 'react-icons/io'
+import Loader from '../../Loader/Loader'
 
 interface Props {
     
@@ -12,19 +15,80 @@ const EditFaq = (props: Props) => {
     const {data, isLoading} = useGetHeroDataQuery("FAQ", {
         refetchOnMountOrArgChange:true
     })
+
+    const [editLayout, {isSuccess:layoutSuccess, error}] = useEditLayoutMutation();
     const [questions, setQuestions] = useState<any[]>([]);
 
     useEffect(() => {
         if(data){
             setQuestions(data.layout.faq)
         }
-    }, [data])
+        if(layoutSuccess){
+            toast.success('FAQ updated successfully')
+        }
+        if(error){
+            if('data'in error){
+                const errorData = error as any;
+                toast.error(errorData?.data?.message);
+            }
+        }
+    }, [data, layoutSuccess, error])
 
 
+    const toggleQuestion = (id:any) => {
+        setQuestions((prevQuestions) =>prevQuestions.map((q) => (q._id === id ? {...q, active: !q.active }: q)));
+    };
+
+    const handleQuestionChange = (id:any, value:string) => {
+        setQuestions((prevQuestions) =>prevQuestions.map((q) => (q._id === id ? {...q, question: value }: q)));
+    }
+
+    const handleAnswerChange = (id:any, value:string) => {
+        setQuestions((prevQuestions) =>prevQuestions.map((q) => (q._id === id ? {...q, answer: value }: q)));
+    };
+
+    const newFaqHandler = () => {
+        setQuestions([
+            ...questions,
+            {
+                question: "",
+                answer:"",
+            }
+        ])
+    }
+
+    //functions to check if the faq are changed
+    const areQuestionsUnchanged = (
+        originalQuestions: any[],
+        newQuestions: any[]
+    ) => {
+        return JSON.stringify(originalQuestions) === JSON.stringify(newQuestions);
+    };
+
+    const isAnyQuestionEmpty = (question:any[]) => {
+        return questions.some((q) => q.question === '' || q.answer === '');
+    } 
+
+    const handleEdit = async() => {
+        if(!areQuestionsUnchanged(data.layout.faq, questions) &&
+        !isAnyQuestionEmpty(questions)
+        ){
+            await editLayout({
+                type:'FAQ',
+                faq:questions
+            })
+        }
+    }
 
     //console.log(data);
     return (
-        <div className='w-[90%] 800px:w-[80%] m-auto mt-[120px]'>
+      <>
+      {
+        isLoading ? (
+            <Loader />
+
+        ):(
+            <div className='w-[90%] 800px:w-[80%] m-auto mt-[120px]'>
             <div className='mt-12'>
                 <dl className='space-y-8'>
                     {questions.map((q:any) => (
@@ -83,13 +147,13 @@ const EditFaq = (props: Props) => {
             </div>
 
             <div className={`${styles.button} !w-[100px] !min-h-[40px] !h-[40px] dark:text-white text-black bg-[#cccccc34]
-            ${areQuestionsUnchanged(data.layout.faq, questions) ||
+            ${areQuestionsUnchanged(data?.layout?.faq, questions) ||
             isAnyQuestionEmpty(questions)
             ? "!cursor-not-allowed"
             : "!cursor-pointer !bg-[#42d383]"
             } !rounded absolute bottom-12 right-12`}
             onClick={
-                areQuestionsUnchanged(data.layout.faq, questions) ||
+                areQuestionsUnchanged(data?.layout?.faq, questions) ||
                 isAnyQuestionEmpty(questions)
                 ? () =>null
                 : handleEdit
@@ -100,6 +164,9 @@ const EditFaq = (props: Props) => {
             </div>
             
         </div>
+        )
+      }
+      </>
     )
 }
 
