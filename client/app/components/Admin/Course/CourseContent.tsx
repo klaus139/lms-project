@@ -25,6 +25,7 @@ const CourseContent: FC<Props> = ({
     Array(courseContentData.length).fill(false)
   );
   const [activeSection, setActiveSection] = useState(1);
+  //console.log(courseContentData);
 
   
 
@@ -51,10 +52,12 @@ const CourseContent: FC<Props> = ({
   };
 
   const newContentHandler = (item: any) => {
+    console.log(item)
     if (
       item.title === "" ||
       item.description === "" ||
       item.videoUrl === "" ||
+      item.videoLength === "" ||
       item.links[0].url === "" ||
       item.links[0].title
     ) {
@@ -75,6 +78,7 @@ const CourseContent: FC<Props> = ({
         videoUrl: "",
         title: "",
         description: "",
+        videoLength: "",
         videoSection: newVideoSection,
         links: [{ title: "", url: "" }],
       };
@@ -87,6 +91,7 @@ const CourseContent: FC<Props> = ({
       courseContentData[courseContentData.length - 1].title === "" ||
       courseContentData[courseContentData.length - 1].description === "" ||
       courseContentData[courseContentData.length - 1].videUrl === "" ||
+      courseContentData[courseContentData.length - 1].videoLength === "" ||
       courseContentData[courseContentData.length - 1].links[0].title === "" ||
       courseContentData[courseContentData.length - 1].links[0].url === ""
     ) {
@@ -97,6 +102,7 @@ const CourseContent: FC<Props> = ({
         videoUrl: "",
         title: "",
         description: "",
+        videLength:"",
         videoSection: `Untitled Section ${activeSection}`,
         links: [{ title: "", url: "" }],
       };
@@ -113,6 +119,7 @@ const CourseContent: FC<Props> = ({
       courseContentData[courseContentData.length - 1].title === "" ||
       courseContentData[courseContentData.length - 1].description === "" ||
       courseContentData[courseContentData.length - 1].videUrl === "" ||
+      courseContentData[courseContentData.length - 1].videoLength === "" ||
       courseContentData[courseContentData.length - 1].links[0].title === "" ||
       courseContentData[courseContentData.length - 1].links[0].url === ""
     ) {
@@ -224,7 +231,7 @@ const CourseContent: FC<Props> = ({
                         className={`${styles.input}`}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
-                          updatedData[index].videoUrl = e.target.value;
+                          updatedData[index].videoLength = e.target.value;
                           setCourseContentData(updatedData);
                         }}
                       />

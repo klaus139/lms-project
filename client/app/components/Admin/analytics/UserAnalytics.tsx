@@ -49,15 +49,15 @@ const UserAnalytics = ({isDashboard}:Props) => {
         <Loader />
        ):(
         <div className={`${!isDashboard ? 'mt-[50px]' : 'mt-[50px] dark:bg-[#111c43] shadow-sm pb-5 rounded-sm'}`}>
-            <div className={`${isDashboard ? '!ml-8 mb-5' : ""}`}>
+            <div className={`${isDashboard ? '!ml-8 mb-[50px]' : ""}`}>
                 <h1 className={`${styles.title} ${isDashboard && '!text-[20px]'} px-5 !text-start`}>User Analytics</h1>
                 {
                     !isDashboard && (
-                        <p className={`${styles.label} px-5`}>Last 12 months analytics data{" "}</p>
+                        <p className={`${styles.label} px-5 py-5`}>Last 12 months analytics data{" "}</p>
                     )
                 }
             </div>
-            <div className={`w-full ${isDashboard ? 'h-[30vh]' : 'h-screen'} flx items-center justify-center`}>
+            <div className={`w-full ${isDashboard ? 'h-[30vh]' : 'h-screen'} flx items-center justify-center mt-[100px]`}>
                 <ResponsiveContainer width={isDashboard ? '100%' : '90%'} height={!isDashboard ? '50%' : '100%'}>
                     <AreaChart
                     data={analyticsData}

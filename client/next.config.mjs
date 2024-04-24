@@ -7,7 +7,10 @@ const nextConfig = {
             hostname: 'avatars.githubusercontent.com',
           },
           {
-            hostname:'res.cloudinary.com'
+            hostname:'res.cloudinary.com',
+          },
+          {
+            hostname:'randomuser.me',
           }
         ],
     },

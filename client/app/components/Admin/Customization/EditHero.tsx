@@ -13,6 +13,7 @@ const EditHero: FC<Props> = (props: Props) => {
   const { data, refetch } = useGetHeroDataQuery("Banner", {
     refetchOnMountOrArgChange:true
   });
+  //console.log(data)
 
   const [editLayout, {isLoading, isSuccess, error}] = useEditLayoutMutation()
   //console.log(data);

@@ -10,7 +10,7 @@ type Props= {
 
 const Ratings:FC<Props> = ({rating}) => {
     const stars = [];
-    for(let i = 1; i < 5; i++){
+    for(let i = 1; i < 6; i++){
         if(i <= rating){
             stars.push(
                 <AiFillStar 
@@ -43,7 +43,7 @@ const Ratings:FC<Props> = ({rating}) => {
         }
     }
     return (
-        <div className='flex mt-1 ml-2 800px:mt-0 800px:ml-0'>
+        <div className='flex mt-1 ml-2 gap-2 800px:mt-0 800px:ml-0'>
             {stars}
         </div>
     )

@@ -3,11 +3,14 @@ import React, { FC } from "react";
 import { BiSearch } from "react-icons/bi";
 import heroBg from "../../../public/assets/hero-bg.png";
 import Link from "next/link";
+import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 
 
 interface Props {}
 
 const Hero: FC<Props> = (props) => {
+  const { data, refetch } = useGetHeroDataQuery("Banner", {});
+  //console.log(data);
   return (
     <div className="w-full 1000px:flex items-center">
       <div className="absolute hidden 1000px:flex top-[150px] m-2 1000px:top-[unset] 1500px:h-[700px] 1500px:w-[700px] 1000px:h-[600px] 1100px:w-[600px]  md:w-[50vh] md:h-[50vh] hero_animation rounded-full"></div>
@@ -20,12 +23,11 @@ const Hero: FC<Props> = (props) => {
       </div>
       <div className="mx-auto 1000px:w-[50%] flex flex-col items-center 1000px:mt-[0px]  text-center mt-[100px]">
         <h2 className="dark:text-white text-[#000000c7] text-[30px] px-3 w-full 1000px:text-[70px] font-[600] font-Josefin py-2 1000px:leading-[75px] 1500px:w-[300px] 1000:w-[400px] text-center">
-          Learn Better In Your Own Dialect and Improve Your Skills
+          {data?.layout?.banner?.title}
         </h2>
         <br />
         <p className="dark:text-[#edfff4] text-[#000000ac] font-Josefin font-[600] text-[18px] 1500px:!w-[55%] 1100px:!w-[78%]">
-          We have over 40k+ online courses & 500k+ online registered students.
-          Find Your desired courses and learn in your local dialect
+          {data?.layout?.banner?.subTitle}
         </p>
         <br/>
         <br/>

@@ -1,6 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
 import { styles } from "../../../../app/styles/style";
-import { readSync } from "fs";
 import { useGetHeroDataQuery } from "@/redux/features/layout/layoutApi";
 
 interface Props {
@@ -68,6 +67,7 @@ useEffect(() => {
       reader.readAsDataURL(file);
     }
   }
+  console.log(courseInfo);
   return (
     <div className="w-[80%] m-auto mt-24">
       <form onSubmit={handleSubmit} className={`${styles.label}`}>
@@ -158,8 +158,8 @@ useEffect(() => {
          <div className='w-[50%]'>
          <label className={`${styles.label}`}>Course Categories</label><br />
           <select name="" title='categories' id='' className={`${styles.input}`}
-          value={courseInfo.category}
-          onChange={(e:any) => setCourseInfo({...courseInfo, category: e.target.value})}
+          value={courseInfo.categories}
+          onChange={(e:any) => setCourseInfo({...courseInfo, categories: e.target.value})}
           >
             <option value=''>{" "}Select category</option>
             {categories?.map((item:any) => (

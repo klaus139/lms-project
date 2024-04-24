@@ -196,9 +196,9 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
               "& .name-column-cell": {
                 color: theme === "dark" ? "#fff" : "#000",
               },
-              "& .MuiDataGrid-columnHeaders": {
+              "& .MuiDataGrid-columnHeader": {
                 borderBottom: "none",
-                color: theme === "dark" ? "#380b0b" : "#000",
+                color: theme === "dark" ? "#334396" : "#000",
                 backgroundColor: theme === "dark" ? "#334396" : "#A4A9FC",
               },
               "& .MuiDataGrid-virtualScroller": {

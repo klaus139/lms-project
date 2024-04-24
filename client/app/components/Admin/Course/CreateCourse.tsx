@@ -86,6 +86,7 @@ const CreateCourse = (props: Props) => {
       price:courseInfo.price,
       estimatedPrice:courseInfo.estimatedPrice,
       tags:courseInfo.tags,
+      categories:courseInfo.categories,
       thumbnail:courseInfo.thumbnail,
       level:courseInfo.level,
       demoUrl:courseInfo.demoUrl,

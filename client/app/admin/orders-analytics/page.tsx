@@ -4,7 +4,7 @@ import Heading from '../../../app/utils/Heading'
 import React from 'react'
 import AdminSidebar from '../../../app/components/Admin/Sidebar/AdminSidebar'
 import DashboardHero from '../../../app/components/Admin/DashboardHero'
-import UserAnalytics from '@/app/components/Admin/analytics/UserAnalytics'
+import OrderAnalytics from '@/app/components/Admin/analytics/OrderAnalytics'
 
 
 type Props= {
@@ -26,7 +26,7 @@ const page = (props: Props) => {
             </div>
             <div className='w-[85%]'>
                 <DashboardHero />
-                <UserAnalytics />
+                <OrderAnalytics />
                 
 
             </div>

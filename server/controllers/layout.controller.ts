@@ -78,7 +78,7 @@ export const editLayout = CatchAsyncError(async(req:Request, res:Response, next:
 
             const data = image.startsWith('https')
             ? bannerData
-            : await cloudinary.v2.uploader.destroy(bannerData?.image.public_id)
+            : await cloudinary.v2.uploader.destroy(bannerData?.image?.public_id)
 
             // const myCloud = await cloudinary.v2.uploader.upload(image,{
             //     folder:"layout"
@@ -86,11 +86,11 @@ export const editLayout = CatchAsyncError(async(req:Request, res:Response, next:
             const banner = {
                 type:"Banner",
                 image:{
-                    public_id: image.startsWith("https")
-                    ? bannerData.banner.image.public_id
+                     public_id: image.startsWith("https")
+                    ? bannerData.banner?.image?.public_id
                     : data?.public_id,
                     url:image.startsWith('https')
-                    ? bannerData.banner.image.url
+                    ? bannerData?.banner?.image.url
                     : data?.secure_url
                 },
                 title,
