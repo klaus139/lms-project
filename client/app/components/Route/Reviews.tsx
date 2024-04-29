@@ -23,7 +23,7 @@ export const reviews = [
     {
         name:"Fredrick Omotayo",
         avatar:"https://randomuser.me/api/portraits/men/2.jpg",
-        profession:"Student | University of Ilorin",
+        profession:"Student | Welspring University",
         comment:"I've recommended this e-learning platform to all my friends and colleagues! The quality of the content is unmatched, and I've seen significant improvement in my skills since I started using it. Whether you're a beginner or an expert looking to upskill, this platform has something for everyone"
     },
     {
@@ -35,7 +35,7 @@ export const reviews = [
     {
         name:"Anne Tayo",
         avatar:"https://randomuser.me/api/portraits/women/2.jpg",
-        profession:"Student | University of Lagos",
+        profession:"Student | University of Michigan",
         comment:"I've tried several e-learning platforms, but this one stands out for its excellent instructor support. The instructors are knowledgeable, responsive, and truly passionate about teaching. I appreciate the personalized feedback they provide, which helps me understand complex concepts better."
     },
     {
@@ -70,7 +70,7 @@ const Reviews = (props: Props) => {
                         <br /> See What They Say About Us
                     </h3>
                     <br />
-                    <p className={`${styles.label}`}>
+                    <p className={`${styles.label} text-black dark:text-white` }>
                         I really grew a lot learning from these guys and the resource they shared were profound. They taught me from a fresh beginner to a place where i knew i could stand for myself and appreciate all i had learnt.
 
                     </p>
