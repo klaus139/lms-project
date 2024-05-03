@@ -35,7 +35,7 @@ courseRouter.put(
 
 courseRouter.get("/get-course/:id", getSingleCourse);
 
-courseRouter.get("/get-courses", getAllCourses);
+//courseRouter.get("/get-courses", getAllCourses);
 
 courseRouter.get('/all-courses-admin', updateAccessToken, isAuthenticated,authorizeRoles('admin'), getAllCoursesAdmin);
 
@@ -49,7 +49,7 @@ courseRouter.put("/add-review/:id", updateAccessToken, isAuthenticated, addRevie
 
 courseRouter.put("/add-reply", updateAccessToken, isAuthenticated,authorizeRoles('admin'), addReplytoReview);
 
-courseRouter.get("/get-courses", updateAccessToken, isAuthenticated,authorizeRoles('admin'), getAllCourses);
+courseRouter.get("/get-courses", getAllCourses);
 
 courseRouter.post('/getVdoCipherOTP', generateVideoUrl)
 

@@ -10,9 +10,11 @@ import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notificationModel";
 import { getAllOrderService, newOrder } from "../services/order.service";
 import { redis } from "../utils/redis";
-const stripe = require("stripe")(process.env.STRIPE_SEVCRE_KEY)
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY)
+// import stripe from 'stripe'
+// const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY!); 
 
-
+//
 export const createOrder = CatchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
     try {

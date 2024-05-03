@@ -1,4 +1,4 @@
-import { useGetAllCoursesQuery } from '@/redux/features/courses/coursesApi'
+import { useGetAllCoursesQuery, useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi'
 import React, {useState, useEffect} from 'react'
 import CourseCard from '../Course/CourseCard';
 import Loader from '../Loader/Loader';
@@ -8,15 +8,21 @@ interface Props {
 }
 
 const Courses = (props: Props) => {
-    const {data, isLoading} = useGetAllCoursesQuery({})
-    console.log(data)
+    const {data, isLoading} = useGetUsersAllCoursesQuery({})
+    
+    const [clicked, setClicked] = useState(false)
+    //console.log(data)
 
+    const handleClicked = () => {
+        setClicked(true);
+    }
     const [courses, setCourses] = useState<any[]>([]);
     useEffect(() => {
         setCourses(data?.courses);
 
     }, [data])
-    //console.log(data);
+
+    console.log(data);
     return (
        <div>
          <div className={`w-[90%] 800px:w-[80%] m-auto`}>
@@ -33,7 +39,9 @@ const Courses = (props: Props) => {
                         <p>Loading courses...</p>
                     ) : (
                         courses?.map((item: any, index: number) => (
-                            <CourseCard item={item} key={index} />
+                            <div className={`${clicked ? 'transition-shadow 0.3 ease-in-out' : ''}`}>
+                                <CourseCard item={item} key={index} />
+                            </div>
                         ))
                     )}
                 </div>

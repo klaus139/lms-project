@@ -2,21 +2,25 @@ import { styles } from "@/app/styles/style";
 import CoursePlayer from "@/app/utils/CoursePlayer";
 import Ratings from "@/app/utils/Ratings";
 import Link from "next/link";
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { IoCheckmarkDoneOutline, IoCloseOutline } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import CourseContentList from "./CourseContentList";
+import {Elements} from '@stripe/react-stripe-js'
+import CheckoutForm from "../Payment/CheckoutForm";
+import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
 
 type Props = {
   data: any;
-  clientSecret:string;
-  stripePromise:any;
+  clientSecret: string;
+  stripePromise: any;
 };
 
 const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
-  const { user } = useSelector((state: any) => state.auth);
-  const [open, setOpen] = useState(false)
+  const {data:userData} = useLoadUserQuery(undefined,{});
+  const user = userData?.user;
+  const [open, setOpen] = useState(false);
   const discountPercentage =
     ((data?.estimatedPrice - data.price) / data.estimatedPrice) * 100;
 
@@ -25,9 +29,10 @@ const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
   const isPurchased =
     user && user?.courses?.find((item: any) => item._id === data._id);
 
-  const handleOrder = (e: any) => {
-    setOpen(true)
-  };
+    const handleOrder = (e: any) => {
+      user ? setOpen(true) : alert("You are not allowed to access this resource, please login.");
+    };
+    
   return (
     <div>
       <div className="w-[90%] 800px:w-[90%] m-auto py-5">
@@ -43,7 +48,9 @@ const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
                   {data.reviews?.length} {"  "} Reviews
                 </h5>
               </div>
-              <h5 className='text-black dark:text-white'>{data.purchased} Students</h5>
+              <h5 className="text-black dark:text-white">
+                {data.purchased} Students
+              </h5>
             </div>
             <br />
             <h1 className="text-[25px] font-Poppins font-[600] text-black dark:text-white">
@@ -94,10 +101,7 @@ const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
                   Course Overview
                 </h1>
                 {/* coursecontentlist */}
-                <CourseContentList
-                data = {data?.courseData}
-                isDemo={true}
-                />
+                <CourseContentList data={data?.courseData} isDemo={true} />
               </div>
               <br />
               <br />
@@ -188,31 +192,51 @@ const CourseDetails = ({ data, stripePromise, clientSecret }: Props) => {
                     className={`${styles.button} !w-[180px] my-3 font-Poppins cursor-pointer !bg-[crimson]`}
                     onClick={handleOrder}
                   >
-                    Buy Now {data.price}
+                    Buy Now ₦{data.price}
                   </div>
                 )}
               </div>
               <br />
-              <p className='pb-1 text-black dark:text-white'>. Source Code included</p>
-              <p className='pb-1 text-black dark:text-white'>. Full Lifetime Access</p>
-              <p className='pb-1 text-black dark:text-white'>. Certificate of Completion</p>
-              <p className='pb-1 text-black dark:text-white'>. Premium Support</p>
+              <p className="pb-1 text-black dark:text-white">
+                . Source Code included
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                . Full Lifetime Access
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                . Certificate of Completion
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                . Premium Support
+              </p>
             </div>
           </div>
         </div>
       </div>
       <>
-      {open && (
-        <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center ">
-            <div className='w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3'>
-                <div className='w-full flex justify-end cursor-pointer '>
-                    <IoCloseOutline size={40} className='text-black cursor-pointer' onClick={()=> setOpen(false)}/>
-                </div>
+        {open && (
+          <div className="w-full h-screen bg-[#00000036] fixed top-0 left-0 z-50 flex items-center justify-center ">
+            <div className="w-[500px] min-h-[500px] bg-white rounded-xl shadow p-3">
+              <div className="w-full flex justify-end cursor-pointer ">
+                <IoCloseOutline
+                  size={40}
+                  className="text-black cursor-pointer"
+                  onClick={() => setOpen(false)}
+                />
+              </div>
+              <div className="w-full">
+                {
+                  stripePromise && clientSecret && (
+                    <Elements stripe={stripePromise} options={{clientSecret}}>
+                      <CheckoutForm setOpen={setOpen} data={data} />
+                    </Elements>
+                  )
+                }
 
+              </div>
             </div>
-
-        </div>
-      )}
+          </div>
+        )}
       </>
     </div>
   );

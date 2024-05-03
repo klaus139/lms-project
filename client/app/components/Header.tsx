@@ -79,11 +79,11 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="w-full relative z-[99999] mb-[100px]">
       <div
         className={`${
           active
-            ? "dark:bg-[#0f1636] bg-[#fffffff4] dark:bg-gradient-0 dark:from-gray-900 dark:to-black fixed top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500"
+            ? "dark:bg-[#0f1636] bg-[#fffffff4] dark:bg-gradient-0 dark:from-gray-900 dark:to-black fixed  top-0 left-0 w-full h-[80px] z-[80] border-b dark:border-[#ffffff1c] shadow-xl transition duration-500"
             : "w-full border-b dark:border-[#ffffff1c] h-[80px] z-[80] dark:shadow "
         }`}
       >
