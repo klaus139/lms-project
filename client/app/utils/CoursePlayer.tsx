@@ -23,7 +23,7 @@ const CoursePlayer: FC<Props> = ({ videoUrl, title }) => {
         setVideoData(res.data);
         
       });
-  }, []);
+  }, [videoUrl]);
   return (
     <div style={{ position:"relative", paddingTop: "56.25%", overflow: "hidden" }}>
       {videoData.otp && videoData.playbackInfo !== "" && (

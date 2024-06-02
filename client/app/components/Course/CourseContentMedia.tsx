@@ -39,7 +39,6 @@ const CourseContentMedia = ({
   const [questionId, setQuestionId] = useState("");
   const [review, setReview] = useState("");
 
-
   const isReviewExist = data?.reviews?.find(
     (item: any) => item.user._id === user._id
   );
@@ -49,7 +48,7 @@ const CourseContentMedia = ({
     { isSuccess, error, isLoading: questionCreationLoading },
   ] = useAddNewQuestionMutation();
 
-  const [addAnswerInQuestion, {isSuccess:answerSuccess, error:answerError, isLoading:answerCreatingLoading}] = useAddAnswerInQuestionMutation();
+  const [addAnswerInQuestion, { isSuccess: answerSuccess, error: answerError, isLoading: answerCreatingLoading }] = useAddAnswerInQuestionMutation();
 
   const handleQuestion = () => {
     if (question.length === 0) {
@@ -65,37 +64,37 @@ const CourseContentMedia = ({
   };
 
   const handleAnswerSubmit = () => {
-  addAnswerInQuestion({answer, courseId:id, contentId:data[activeVideo]._id, questionId:questionId})
-  console.log(questionId)
-
+    addAnswerInQuestion({ answer, courseId: id, contentId: data[activeVideo]._id, questionId: questionId });
+    console.log(questionId);
   };
 
   useEffect(() => {
     if (isSuccess) {
       setQuestion("");
       refetch();
-      toast.success("question sent successfully");
+      toast.success("Question sent successfully");
     }
 
-    if(answerSuccess){
-        setAnswer("");
-        refetch()
-        toast.success('Answer added successfully')
+    if (answerSuccess) {
+      setAnswer("");
+      refetch();
+      toast.success('Answer added successfully');
     }
+
     if (error) {
       if ("data" in error) {
         const errorMessage = error as any;
         toast.error(errorMessage.data.message);
       }
     }
-    if(answerError){
-        if ("data" in answerError) {
-            const errorMessage = answerError as any;
-            toast.error(errorMessage.data.message);
-          }
-    }
 
-  }, [isSuccess, error, answerSuccess, answerError]);
+    if (answerError) {
+      if ("data" in answerError) {
+        const errorMessage = answerError as any;
+        toast.error(errorMessage.data.message);
+      }
+    }
+  }, [isSuccess, error, answerSuccess, answerError, refetch]);
 
   return (
     <div className="w-[100%] h-[100%] mt-[10px] 800px:w-[86%] py-4 m-auto">
@@ -116,7 +115,7 @@ const CourseContentMedia = ({
           Prev Lesson
         </div>
         <div
-          className={`${styles.button}text-white text-[10px] 800px:text-[16px] !min-h-[40px] !py-[unset] ${
+          className={`${styles.button} text-white text-[10px] 800px:text-[16px] !min-h-[40px] !py-[unset] ${
             data.length - 1 === activeVideo && "!cursor-no-drop opacity-[.8]"
           }`}
           onClick={() =>
@@ -157,7 +156,7 @@ const CourseContentMedia = ({
       {activeBar === 1 && (
         <div>
           {data[activeVideo]?.links.map((item: any, index: number) => (
-            <div className="mb-5">
+            <div className="mb-5" key={index}>
               <h2 className="800px:text-[20px] dark:text-white text-black 800px:inline-block">
                 {item.title && item.title + " :"}
               </h2>
@@ -188,7 +187,7 @@ const CourseContentMedia = ({
               id=""
               cols={40}
               rows={5}
-              placeholder="write your question..."
+              placeholder="Write your question..."
               className="outline-none bg-transparent ml-3 border dark:border-[#ffffff57] border-[#383737ae] 800px:w-full p-2 rounded w-[90%] 800px:text-[18px] text-gray-600 dark:text-white font-Poppins"
             ></textarea>
           </div>
@@ -251,6 +250,7 @@ const CourseContentMedia = ({
                           />
                         ) : (
                           <AiOutlineStar
+                            key={i}
                             className="mr-1 cursor-pointer"
                             color="rgb(246,186,0)"
                             size={25}
@@ -266,7 +266,7 @@ const CourseContentMedia = ({
                       id=""
                       cols={40}
                       rows={5}
-                      placeholder="write your comment..."
+                      placeholder="Write your comment..."
                       className="outline-none bg-transparent 800px:ml-3 border border-[#ffffff57] w-[95%] 800px:w-full p-2 rounded text-[18px] font-Poppins"
                     ></textarea>
                   </div>
@@ -298,7 +298,6 @@ const CommentReply = ({
   setQuestionId,
   answerCreationLoading,
 }: any) => {
-  
   return (
     <>
       <div className="w-full my-3">
@@ -334,7 +333,6 @@ const CommentItem = ({
 }: any) => {
   const [replyActive, setReplyActive] = useState(false);
   const [reply, setReply] = useState("");
- 
 
   return (
     <>
@@ -358,7 +356,7 @@ const CommentItem = ({
         <div className="w-full flex">
           <span
             className="800px:pl-16 text-black dark:text-[#ffffff83] cursor-pointer mb-2 mr-2"
-            onClick={() =>{ setReplyActive(!replyActive), setQuestionId(item._id)}}
+            onClick={() => { setReplyActive(!replyActive), setQuestionId(item._id) }}
           >
             {!replyActive
               ? item.questionReplies.length !== 0
@@ -376,8 +374,8 @@ const CommentItem = ({
         </div>
         {replyActive && (
           <>
-            {item.questionReplies.map((item: any) => (
-              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white">
+            {item.questionReplies.map((item: any, replyIndex: number) => (
+              <div className="w-full flex 800px:ml-16 my-5 text-black dark:text-white" key={replyIndex}>
                 <div>
                   <Image
                     src={item?.user?.avatar ? item?.user?.avatar.url : avatar}
@@ -388,40 +386,37 @@ const CommentItem = ({
                   />
                 </div>
                 <div className='pl-2'>
-                   <div className='flex items-center'>
-                   <h5 className="text-[20px]">{item.user.name}</h5><VscVerifiedFilled className="text-[green] pl-1"/>
-                   </div>
-                    <p>{item.answer}</p>
-                    <small className='text-[#ffffff83]'>
-                        {format(item.createdAt)} .
-                    </small>
+                  <div className='flex items-center'>
+                    <h5 className="text-[20px]">{item.user.name}</h5><VscVerifiedFilled className="text-[green] pl-1" />
+                  </div>
+                  <p>{item.answer}</p>
+                  <small className='text-[#ffffff83]'>
+                    {format(item.createdAt)} .
+                  </small>
 
                 </div>
               </div>
             ))}
             <>
-            <div className='w-full flex relative dark:text-white mb-3 text-black'>
-            <input 
-                type="text"
-                placeholder='Enter your answer'
-                value={answer}
-                onChange={(e:any) => setAnswer(e.target.value)}
-                className={`block 800px:ml-12 mx-2 mt-2 mb-2 outline-none bg-transparent border-b dark:text-[#fff] text-black dark:border-[#fff]  border-[#00000027] p-[5px] w-[95%] ${answer === "" || answerCreationLoading && 'cursor-not-allowed'}`}
+              <div className='w-full flex relative dark:text-white mb-3 text-black'>
+                <input
+                  type="text"
+                  placeholder='Enter your answer'
+                  value={answer}
+                  onChange={(e: any) => setAnswer(e.target.value)}
+                  className={`block 800px:ml-12 mx-2 mt-2 mb-2 outline-none bg-transparent border-b dark:text-[#fff] text-black dark:border-[#fff]  border-[#00000027] p-[5px] w-[95%] ${answer === "" || answerCreationLoading && 'cursor-not-allowed'}`}
                 />
                 <button
-                title='btn'
-                type='submit'
-                className='absolute right-0 bottom-1 mb-2 px-2 mx-2'
-                onClick={handleAnswerSubmit}
-                disabled={answer === "" || answerCreationLoading}
+                  title='btn'
+                  type='submit'
+                  className='absolute right-0 bottom-1 mb-2 px-2 mx-2'
+                  onClick={handleAnswerSubmit}
+                  disabled={answer === "" || answerCreationLoading}
                 >
-                    Submit
+                  Submit
 
                 </button>
-            
-               
-
-            </div>
+              </div>
             </>
           </>
         )}

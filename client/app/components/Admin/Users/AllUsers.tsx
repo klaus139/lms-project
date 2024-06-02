@@ -61,7 +61,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       setOpen(false);
       toast.success("User deleted successfully");
     }
-  }, [updateError, isSuccess, deleteSuccess]); // Add dependencies to the useEffect hook
+  }, [updateError, isSuccess, deleteSuccess, refetch]); // Add dependencies to the useEffect hook
 
   const column = [
     { field: "id", headerName: "ID", flex: 0.3 },
@@ -100,7 +100,7 @@ const AllUsers: FC<Props> = ({ isTeam }) => {
       renderCell: (params: any) => {
         return (
           <>
-            <a href={`mailto:${params.row.email}`}>
+            <a title='mail-link' href={`mailto:${params.row.email}`}>
               <AiOutlineMail
                 className="dark:text-white text-black mt-3"
                 size={20}

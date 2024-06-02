@@ -39,7 +39,7 @@ const Courses = (props: Props) => {
                         <p>Loading courses...</p>
                     ) : (
                         courses?.map((item: any, index: number) => (
-                            <div className={`${clicked ? 'transition-shadow 0.3 ease-in-out' : ''}`}>
+                            <div key={index} className={`${clicked ? 'transition-shadow 0.3 ease-in-out' : ''}`}>
                                 <CourseCard item={item} key={index} />
                             </div>
                         ))

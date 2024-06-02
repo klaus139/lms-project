@@ -1,7 +1,7 @@
 'use client'
 import CourseContent from '@/app/components/Course/CourseContent';
 import Loader from '@/app/components/Loader/Loader';
-import { useLoadUserQuery } from '@/redux/features/api/apiSlice';
+import { useLoadUserQuery } from '../../../redux/features/api/apiSlice';
 import { redirect } from 'next/navigation';
 import React,{useEffect} from 'react'
 import toast from 'react-hot-toast';
@@ -11,7 +11,7 @@ type Props= {
     
 }
 
-const page = ({params}: Props) => {
+const Page = ({params}: Props) => {
     const id=params.id
 
     const {isLoading, error, data} = useLoadUserQuery(undefined, {});
@@ -28,7 +28,7 @@ const page = ({params}: Props) => {
                 redirect('/')
             }
         }
-    },[data, error])
+    },[data, error, id])
     return (
         <>
         {isLoading ? (
@@ -42,4 +42,4 @@ const page = ({params}: Props) => {
     )
 }
 
-export default page
+export default Page

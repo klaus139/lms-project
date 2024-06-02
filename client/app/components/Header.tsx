@@ -58,7 +58,7 @@ const Header: FC<Props> = ({ activeItem, setOpen, route, open, setRoute }) => {
     // if(data === null && user === null){
     //   setLogout(true);
     // }
-  }, [data, user]);
+  }, [data, user, isSuccess, socialAuth]);
 
   //console.log(data?.user.image);
 

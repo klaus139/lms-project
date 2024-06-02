@@ -34,7 +34,7 @@ const EditCategories = (props: Props) => {
                 toast.error(errorData?.data?.message)
             }
         }
-    },[data, layoutSuccess, error])
+    },[data, layoutSuccess, error, refetch])
 
     const handleCategoriesAdd = (id:any, value:string) => {
         setCategories((prevCategory:any) => prevCategory.map((i:any) => (i._id === id ? {...i, title:value} : i)));
@@ -78,7 +78,7 @@ const EditCategories = (props: Props) => {
                 <h1 className={`${styles.title}`}>All Categories</h1>
                 {categories.map((item:any, index:number) => {
                     return (
-                        <div className='p-3'>
+                        <div key={index} className='p-3'>
                             <div className='flex items-center w-full justify-center'>
                                 <input 
                                 className={`${styles.input} !w-[unset] !border-none !text-[20px]`}

@@ -8,12 +8,13 @@ import Profile from "../components/Profile/Profile";
 
 type Props = {};
 
-const page: FC<Props> = (props) => {
+const Page: FC<Props> = (props) => {
   const [open, setOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(5);
-  const {user} = useSelector((state:any) => state.auth)
+  const { user } = useSelector((state: any) => state.auth);
 
   const [route, setRoute] = useState("Login");
+
   return (
     <div>
       <Protected>
@@ -29,10 +30,10 @@ const page: FC<Props> = (props) => {
           setRoute={setRoute}
           route={route}
         />
-        <Profile user={user}/>
+        <Profile user={user} />
       </Protected>
     </div>
   );
 };
 
-export default page;
+export default Page;

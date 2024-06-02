@@ -1,5 +1,5 @@
 import {redirect} from 'next/navigation';
-import userAuth from './userAuth';
+import useUserAuth from './userAuth';
 import { useSelector } from 'react-redux';
 
 interface ProtectedProps{
